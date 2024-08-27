@@ -16,7 +16,7 @@
 						"referenceName": "ds_order_database",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "getorder"
 				}
 			],
 			"sinks": [
@@ -30,10 +30,25 @@
 			],
 			"transformations": [
 				{
-					"name": "RemoveNull"
+					"name": "FilteredCustomer"
 				},
 				{
 					"name": "join1"
+				},
+				{
+					"name": "FilteredOrder"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -65,14 +80,38 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"getcustomers filter(!equals(toString(Address),'NULL') && !equals(toString(City),'NULL') && !equals(toString(ZipCode),'NULL') && !equals(toString(State),'NULL') ) ~> RemoveNull",
-				"RemoveNull join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'inner',",
+				"     format: 'table') ~> getorder",
+				"getcustomers filter(!equals(toString(Address),'NULL') && !equals(toString(City),'NULL') && !equals(toString(ZipCode),'NULL') && !equals(toString(State),'NULL') ) ~> FilteredCustomer",
+				"FilteredCustomer, FilteredOrder join(getcustomers@CustomerID == getorder@CustomerID,",
+				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1 sink(allowSchemaDrift: true,",
+				"getorder filter(!equals(toString(OrderTimestamp),'NULL')) ~> FilteredOrder",
+				"join1 filter(!equals(toString(getorder@CustomerID),'NULL')) ~> filter1",
+				"filter1 select(mapColumn(",
+				"          CustomerID = getcustomers@CustomerID,",
+				"          FirstName,",
+				"          LastName,",
+				"          OrderID,",
+				"          ProductID,",
+				"          ProductName,",
+				"          Price",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 aggregate(groupBy(FirstName,",
+				"          LastName,",
+				"          ProductName),",
+				"     count = count()>1) ~> aggregate1",
+				"aggregate1 select(mapColumn(",
+				"          FirstName,",
+				"          LastName,",
+				"          ProductName",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
