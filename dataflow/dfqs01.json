@@ -25,7 +25,7 @@
 						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
-					"name": "Customer"
+					"name": "FinalOutput"
 				}
 			],
 			"transformations": [
@@ -33,22 +33,22 @@
 					"name": "FilteredCustomer"
 				},
 				{
-					"name": "join1"
+					"name": "Join"
 				},
 				{
 					"name": "FilteredOrder"
 				},
 				{
-					"name": "filter1"
+					"name": "RemoveNullValues"
 				},
 				{
-					"name": "select1"
+					"name": "AddEssientialRows"
 				},
 				{
-					"name": "aggregate1"
+					"name": "RemoveDupilcate"
 				},
 				{
-					"name": "select2"
+					"name": "Includesomerows"
 				}
 			],
 			"scriptLines": [
@@ -86,10 +86,10 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
+				"     broadcast: 'auto')~> Join",
 				"getorder filter(!equals(toString(OrderTimestamp),'NULL')) ~> FilteredOrder",
-				"join1 filter(!equals(toString(getorder@CustomerID),'NULL')) ~> filter1",
-				"filter1 select(mapColumn(",
+				"Join filter(!equals(toString(getorder@CustomerID),'NULL')) ~> RemoveNullValues",
+				"RemoveNullValues select(mapColumn(",
 				"          CustomerID = getcustomers@CustomerID,",
 				"          FirstName,",
 				"          LastName,",
@@ -99,19 +99,19 @@
 				"          Price",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 aggregate(groupBy(FirstName,",
+				"     skipDuplicateMapOutputs: true) ~> AddEssientialRows",
+				"AddEssientialRows aggregate(groupBy(FirstName,",
 				"          LastName,",
 				"          ProductName),",
-				"     count = count()>1) ~> aggregate1",
-				"aggregate1 select(mapColumn(",
+				"     count = count()>1) ~> RemoveDupilcate",
+				"RemoveDupilcate select(mapColumn(",
 				"          FirstName,",
 				"          LastName,",
 				"          ProductName",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"select2 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> Includesomerows",
+				"Includesomerows sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -121,7 +121,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> Customer"
+				"     errorHandlingOption: 'stopOnFirstError') ~> FinalOutput"
 			]
 		}
 	}
