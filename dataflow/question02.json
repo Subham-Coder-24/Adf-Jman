@@ -1,0 +1,112 @@
+{
+	"name": "question02",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_sql_database",
+						"type": "DatasetReference"
+					},
+					"name": "getDataFromDatabase"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sql_database_create",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerCreate"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Customer"
+				},
+				{
+					"name": "Orders"
+				},
+				{
+					"name": "Product"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Row ID} as string,",
+				"          {Order ID} as string,",
+				"          {Order Date} as string,",
+				"          {Ship Date} as string,",
+				"          {Ship Mode} as string,",
+				"          {Customer ID} as string,",
+				"          {Customer Name} as string,",
+				"          Segment as string,",
+				"          Country as string,",
+				"          City as string,",
+				"          State as string,",
+				"          {Postal Code} as string,",
+				"          Region as string,",
+				"          {Product ID} as string,",
+				"          Category as string,",
+				"          {Sub-Category} as string,",
+				"          {Product Name} as string,",
+				"          Sales as string,",
+				"          Quantity as string,",
+				"          Discount as string,",
+				"          Profit as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> getDataFromDatabase",
+				"getDataFromDatabase select(mapColumn(",
+				"          {Customer ID},",
+				"          {Customer Name},",
+				"          Segment,",
+				"          Country,",
+				"          City,",
+				"          State,",
+				"          {Postal Code},",
+				"          Region",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Customer",
+				"getDataFromDatabase select(mapColumn(",
+				"          {Order ID},",
+				"          {Order Date},",
+				"          {Ship Date},",
+				"          {Ship Mode},",
+				"          {Customer ID},",
+				"          {Product ID},",
+				"          Quantity,",
+				"          Profit",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Orders",
+				"getDataFromDatabase select(mapColumn(",
+				"          {Product ID},",
+				"          Category,",
+				"          {Sub-Category},",
+				"          {Product Name},",
+				"          Sales,",
+				"          Quantity,",
+				"          Discount,",
+				"          Profit",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Product",
+				"Customer sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> CustomerCreate"
+			]
+		}
+	}
+}
