@@ -1,19 +1,40 @@
 {
-	"name": "ds_supermarket_blob",
+	"name": "ds_blob_xlsx",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"containerName": {
+				"type": "string"
+			},
+			"fileName": {
+				"type": "string"
+			},
+			"sheet": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
-			"sheetName": "Worksheet",
+			"sheetName": {
+				"value": "@dataset().sheet",
+				"type": "Expression"
+			},
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "240826-Superstore.xlsx",
-				"container": "input03"
-			}
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().containerName",
+					"type": "Expression"
+				}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": [
 			{

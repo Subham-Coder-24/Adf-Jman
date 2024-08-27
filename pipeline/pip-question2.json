@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "superstore",
+				"name": "superstore container to sql database",
+				"description": "",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -41,8 +42,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_supermarket_blob",
-						"type": "DatasetReference"
+						"referenceName": "ds_blob_xlsx",
+						"type": "DatasetReference",
+						"parameters": {
+							"containerName": "input03",
+							"fileName": "240826-Superstore.xlsx",
+							"sheet": "Worksheet"
+						}
 					}
 				],
 				"outputs": [
