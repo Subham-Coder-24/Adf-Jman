@@ -1,0 +1,49 @@
+{
+	"name": "dfqs01",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_customer_database",
+						"type": "DatasetReference"
+					},
+					"name": "getcustomers"
+				},
+				{
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "RemoveNull"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          PhoneNumber as string,",
+				"          Address as string,",
+				"          City as string,",
+				"          State as string,",
+				"          ZipCode as string,",
+				"          Country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> getcustomers",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1",
+				"getcustomers filter(contains(array(toString(columns())),!isNull(#item))\r",
+				"\r",
+				") ~> RemoveNull"
+			]
+		}
+	}
+}
