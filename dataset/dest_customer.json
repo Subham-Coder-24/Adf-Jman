@@ -10,9 +10,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "consolidated_customers.csv",
-				"folderPath": "consolidate_folder/customer",
-				"container": "input01"
+				"fileName": "customer.csv",
+				"folderPath": "customer",
+				"container": "consolidatedoutput02"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
