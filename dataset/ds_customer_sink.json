@@ -1,5 +1,5 @@
 {
-	"name": "dest_customer",
+	"name": "ds_customer_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "linked_service_sql",

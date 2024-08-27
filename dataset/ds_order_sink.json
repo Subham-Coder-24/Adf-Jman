@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText3",
+	"name": "ds_order_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage2",
@@ -10,9 +10,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "order_cons.csv",
-				"folderPath": "orders",
-				"container": "output"
+				"fileName": "order.csv",
+				"folderPath": "order",
+				"container": "consolidatedoutput02"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -51,13 +51,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "customer",
+						"referenceName": "ds_customer_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "dest_customer",
+						"referenceName": "ds_customer_sink",
 						"type": "DatasetReference"
 					}
 				]
@@ -108,13 +108,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Excel2",
+						"referenceName": "ds_order_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText3",
+						"referenceName": "ds_order_sink",
 						"type": "DatasetReference"
 					}
 				]

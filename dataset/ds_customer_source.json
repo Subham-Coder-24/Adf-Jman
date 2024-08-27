@@ -1,5 +1,5 @@
 {
-	"name": "customer",
+	"name": "ds_customer_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "linked_service_sql",
