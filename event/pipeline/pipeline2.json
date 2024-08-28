@@ -17,13 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df-user-cleaning",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"sink1": {
-								"tableName": "cleaned",
-								"schemaName": "User"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
