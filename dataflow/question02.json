@@ -15,10 +15,24 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_sql_database_create",
+						"referenceName": "ds_sql_db_cr_customer",
 						"type": "DatasetReference"
 					},
 					"name": "CustomerCreate"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_db_cr_orders",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_db_cr_product",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -33,6 +47,9 @@
 				},
 				{
 					"name": "aggregate1"
+				},
+				{
+					"name": "sort1"
 				}
 			],
 			"scriptLines": [
@@ -93,14 +110,14 @@
 				"          {Sub-Category},",
 				"          {Product Name},",
 				"          Sales,",
-				"          Quantity,",
-				"          Discount,",
-				"          Profit",
+				"          Discount",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Product",
 				"Customer aggregate(groupBy({Customer ID}),",
 				"     each(match(name != 'Customer ID'), $$ = first($$))) ~> aggregate1",
+				"Product sort(asc({Product ID}, true),",
+				"     caseInsensitive: true) ~> sort1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -118,7 +135,27 @@
 				"          State,",
 				"          {Postal Code},",
 				"          Region",
-				"     )) ~> CustomerCreate"
+				"     )) ~> CustomerCreate",
+				"Orders sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 			]
 		}
 	}

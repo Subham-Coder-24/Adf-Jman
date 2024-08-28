@@ -1,5 +1,5 @@
 {
-	"name": "ds_sql_db_cr_customer",
+	"name": "ds_sql_db_cr_product",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_sql_database",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "final",
-			"table": "Customer"
+			"table": "Product"
 		}
 	}
 }
