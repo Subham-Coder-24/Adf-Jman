@@ -2,7 +2,7 @@
 	"name": "ds_sql_source",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_sql_database_create_table",
+			"referenceName": "ls_azure_sql",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
