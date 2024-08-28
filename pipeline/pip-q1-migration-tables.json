@@ -1,5 +1,5 @@
 {
-	"name": "pip-question2",
+	"name": "pip-q1-migration-tables",
 	"properties": {
 		"activities": [
 			{
@@ -22,12 +22,6 @@
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						}
-					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false,
-						"disableMetricsCollection": false
 					},
 					"enableStaging": false
 				}
