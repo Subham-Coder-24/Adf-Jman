@@ -24,8 +24,8 @@
 								"tableName": "User"
 							},
 							"sink1": {
-								"schemaName": "cleaned",
-								"tableName": "User"
+								"tableName": "cleaned",
+								"schemaName": "User"
 							}
 						}
 					},

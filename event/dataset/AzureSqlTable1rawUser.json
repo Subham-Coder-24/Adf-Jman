@@ -1,0 +1,48 @@
+{
+	"name": "AzureSqlTable1rawUser",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "password",
+				"type": "nvarchar"
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "createdAt",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "updatedAt",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "role",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "raw",
+			"table": "User"
+		}
+	}
+}
