@@ -19,10 +19,6 @@
 						"referenceName": "df-user-cleaning",
 						"type": "DataFlowReference",
 						"datasetParameters": {
-							"source1": {
-								"schemaName": "raw",
-								"tableName": "User"
-							},
 							"sink1": {
 								"tableName": "cleaned",
 								"schemaName": "User"
