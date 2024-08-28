@@ -1,16 +1,30 @@
 {
-	"name": "PostgreSqlTable1",
+	"name": "ds_postgress_sql",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "PostgreSql1",
+			"referenceName": "LS_vercel_postgress_conn_get_table",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"schemaName": {
+				"type": "string"
+			},
+			"tableName": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "PostgreSqlV2Table",
 		"schema": [],
 		"typeProperties": {
-			"schema": "public",
-			"table": "User"
+			"schema": {
+				"value": "@dataset().schemaName",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tableName",
+				"type": "Expression"
+			}
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
