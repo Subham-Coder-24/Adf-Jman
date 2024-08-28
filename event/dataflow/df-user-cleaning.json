@@ -1,10 +1,14 @@
 {
-	"name": "dataflow1",
+	"name": "df-user-cleaning",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "ds_sql_source",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
@@ -12,7 +16,9 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1"
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1"
 			]
 		}
 	}

@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "pip-copy-pg-sql",
 	"properties": {
 		"activities": [
 			{
@@ -48,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_azure_sql_database_create_table",
+						"referenceName": "ds_azure_sql_create_table_sink",
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "raw",
