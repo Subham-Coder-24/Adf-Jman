@@ -38,7 +38,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_postgress_sql",
+						"referenceName": "ds_postgress_sql_get_table",
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "public",

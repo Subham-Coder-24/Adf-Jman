@@ -1,5 +1,5 @@
 {
-	"name": "ds_postgress_sql",
+	"name": "ds_postgress_sql_get_table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_vercel_postgress_conn_get_table",
