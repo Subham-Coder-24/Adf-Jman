@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "VercelPostgressToAzureDatabase",
+				"description": "Copy 4 table\nUser\nOrder\nCategory\nEvent",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
