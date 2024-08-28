@@ -21,7 +21,9 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -39,14 +41,18 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "public",
-							"tableName": "User"
+							"tableName": "Category"
 						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "ds_azure_sql_database_create_table",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaName": "raw",
+							"tableName": "Category"
+						}
 					}
 				]
 			}
