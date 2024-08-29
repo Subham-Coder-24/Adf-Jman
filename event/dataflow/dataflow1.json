@@ -29,6 +29,9 @@
 				},
 				{
 					"name": "aggregate1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -82,7 +85,9 @@
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 aggregate(groupBy(id),",
 				"     Total_Ticket_Booked = sum(quantity),",
-				"          Revenue = sum(total)) ~> aggregate1"
+				"          Revenue = sum(total)) ~> aggregate1",
+				"aggregate1 derive(Total_Ticket_Booked = case(Total_Ticket_Booked!=0, 0),",
+				"          Revenue = case(Revenue!=0, 0)) ~> derivedColumn1"
 			]
 		}
 	}
