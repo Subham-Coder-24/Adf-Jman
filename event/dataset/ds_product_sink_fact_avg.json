@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "fact",
-			"table": "UkProduct01"
+			"table": "AvgPricebyCategory"
 		}
 	}
 }
