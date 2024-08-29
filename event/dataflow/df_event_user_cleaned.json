@@ -9,17 +9,20 @@
 						"referenceName": "ds_event_raw_user",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "User"
 				}
 			],
 			"sinks": [
 				{
-					"name": "sink1"
+					"name": "CleanedUser"
 				}
 			],
 			"transformations": [
 				{
-					"name": "aggregate1"
+					"name": "RemoveDuplicate"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -35,13 +38,14 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 aggregate(groupBy(id),",
-				"     each(match(name!='id'), $$ = first($$))) ~> aggregate1",
-				"aggregate1 sink(allowSchemaDrift: true,",
+				"     format: 'table') ~> User",
+				"User aggregate(groupBy(id),",
+				"     each(match(name!='id'), $$ = first($$))) ~> RemoveDuplicate",
+				"RemoveDuplicate filter(endsWith(email, '@example.com')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> CleanedUser"
 			]
 		}
 	}
