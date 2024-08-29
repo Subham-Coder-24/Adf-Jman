@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_azure_sql_sink",
+						"type": "DatasetReference"
+					},
 					"name": "CleanedUser"
 				}
 			],
@@ -44,8 +48,14 @@
 				"RemoveDuplicate filter(endsWith(email, '@example.com')) ~> filter1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> CleanedUser"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> CleanedUser"
 			]
 		}
 	}
