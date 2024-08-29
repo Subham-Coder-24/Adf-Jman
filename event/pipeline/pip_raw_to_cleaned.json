@@ -1,9 +1,9 @@
 {
-	"name": "pip-event-cleaned",
+	"name": "pip_raw_to_cleaned",
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "rawtocleaned",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df-user-cleaning",
+						"referenceName": "df_products_cleaning",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -28,7 +28,7 @@
 			}
 		],
 		"folder": {
-			"name": "event"
+			"name": "UkProducts"
 		},
 		"annotations": []
 	}

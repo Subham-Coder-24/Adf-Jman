@@ -1,0 +1,16 @@
+{
+	"name": "ds_products_cleaned_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "cleaned",
+			"table": "ukproducts"
+		}
+	}
+}
