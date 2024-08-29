@@ -22,10 +22,6 @@
 							"source1": {
 								"schemaName": "raw",
 								"tableName": "User"
-							},
-							"sink1": {
-								"schemaName": "cleaned",
-								"tableName": "User"
 							}
 						}
 					},
