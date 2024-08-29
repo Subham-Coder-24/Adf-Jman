@@ -42,7 +42,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "public",
-							"tableName": "Category"
+							"tableName": "User"
 						}
 					}
 				],
@@ -52,7 +52,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "raw",
-							"tableName": "Category"
+							"tableName": "User"
 						}
 					}
 				]

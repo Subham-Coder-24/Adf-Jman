@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_sql_source",
+						"referenceName": "ds_sql_raw_user_get",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -21,13 +21,45 @@
 					"name": "sink1"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "DateFilter"
+				},
+				{
+					"name": "email"
+				},
+				{
+					"name": "RemoveDuplicates"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          id as integer,",
+				"          email as string,",
+				"          password as string,",
+				"          name as string,",
+				"          createdAt as timestamp,",
+				"          updatedAt as timestamp,",
+				"          role as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"source1 cast(output(",
+				"          createdAt as date,",
+				"          updatedAt as date",
+				"     ),",
+				"     errors: true) ~> DateFilter",
+				"DateFilter filter(endsWith(email, '@gmail.com')\r",
+				") ~> email",
+				"email aggregate(groupBy(id),",
+				"     email = ERROR_FUNCTION(''),",
+				"          password = ERROR_FUNCTION(''),",
+				"          role = ERROR_FUNCTION(''),",
+				"          createdAt = ERROR_FUNCTION(''),",
+				"          updatedAt = ERROR_FUNCTION('')) ~> RemoveDuplicates",
+				"RemoveDuplicates sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
