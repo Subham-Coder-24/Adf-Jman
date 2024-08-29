@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "df_sink_event_fact01",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -19,7 +19,15 @@
 					"name": "Booking"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_fact_event_sink",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1"
@@ -73,7 +81,7 @@
 				"     broadcast: 'auto')~> join1",
 				"join1 select(mapColumn(",
 				"          id = Event@id,",
-				"          {Event name} = name,",
+				"          Event_name = name,",
 				"          description,",
 				"          location,",
 				"          price,",
@@ -84,10 +92,23 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 aggregate(groupBy(id),",
-				"     Total_Ticket_Booked = sum(quantity),",
+				"     Event_name = first(Event_name),",
+				"          Total_Ticket_Booked = sum(quantity),",
 				"          Revenue = sum(total)) ~> aggregate1",
-				"aggregate1 derive(Total_Ticket_Booked = case(Total_Ticket_Booked!=0, 0),",
-				"          Revenue = case(Revenue!=0, 0)) ~> derivedColumn1"
+				"aggregate1 derive(Total_Ticket_Booked = coalesce(Total_Ticket_Booked, 0)",
+				",",
+				"          Revenue = coalesce(Revenue, 0)",
+				") ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}

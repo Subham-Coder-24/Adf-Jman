@@ -1,5 +1,5 @@
 {
-	"name": "pipeline2",
+	"name": "pip-event-user-cleaned",
 	"properties": {
 		"activities": [
 			{
@@ -16,14 +16,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df-user-cleaning",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"sink1": {
-								"schemaNameSource": "cleaned",
-								"tableNameSource": "User"
-							}
-						}
+						"referenceName": "df_sink_event_fact01",
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
