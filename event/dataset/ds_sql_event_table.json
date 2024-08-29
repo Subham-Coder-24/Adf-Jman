@@ -1,0 +1,68 @@
+{
+	"name": "ds_sql_event_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "location",
+				"type": "nvarchar"
+			},
+			{
+				"name": "price",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "categoryId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "createdAt",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "updatedAt",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "endTime",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "img",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "raw",
+			"table": "Event"
+		}
+	}
+}

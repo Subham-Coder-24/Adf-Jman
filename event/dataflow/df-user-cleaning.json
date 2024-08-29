@@ -10,6 +10,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "User"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_event_table",
+						"type": "DatasetReference"
+					},
+					"name": "Event"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_booking_table",
+						"type": "DatasetReference"
+					},
+					"name": "Booking"
 				}
 			],
 			"sinks": [
@@ -26,10 +40,13 @@
 					"name": "DateFilter"
 				},
 				{
-					"name": "CheckEmail"
+					"name": "email"
 				},
 				{
 					"name": "RemoveDuplicates"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -46,14 +63,50 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> User",
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          description as string,",
+				"          date as timestamp,",
+				"          location as string,",
+				"          price as double,",
+				"          categoryId as integer,",
+				"          createdAt as timestamp,",
+				"          updatedAt as timestamp,",
+				"          endTime as timestamp,",
+				"          img as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Event",
+				"source(output(",
+				"          id as integer,",
+				"          userId as integer,",
+				"          eventId as integer,",
+				"          quantity as integer,",
+				"          total as double,",
+				"          paymentId as integer,",
+				"          createdAt as timestamp,",
+				"          updatedAt as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Booking",
 				"User cast(output(",
 				"          createdAt as date,",
 				"          updatedAt as date",
 				"     ),",
 				"     errors: true) ~> DateFilter",
-				"DateFilter filter(endsWith(email, '@gmail.com')) ~> CheckEmail",
-				"CheckEmail aggregate(groupBy(id),",
+				"DateFilter filter(endsWith(email, '@gmail.com')) ~> email",
+				"email aggregate(groupBy(id),",
 				"     each(match(name!='id'), $$ = first($$))) ~> RemoveDuplicates",
+				"Event, Booking join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"RemoveDuplicates sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
