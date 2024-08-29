@@ -1,0 +1,9 @@
+{
+	"name": "pip-event-user-cleaned",
+	"properties": {
+		"folder": {
+			"name": "event"
+		},
+		"annotations": []
+	}
+}
