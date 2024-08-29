@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable1rawUser",
+	"name": "ds_event_raw_user",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",
