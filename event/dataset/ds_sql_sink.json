@@ -18,11 +18,11 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": {
-				"value": "@dataset().schemaName",
+				"value": "@dataset().schemaNameSink",
 				"type": "Expression"
 			},
 			"table": {
-				"value": "@dataset().tableName",
+				"value": "@dataset().tableNameSink",
 				"type": "Expression"
 			}
 		}
