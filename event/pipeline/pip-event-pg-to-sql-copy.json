@@ -1,5 +1,5 @@
 {
-	"name": "pip-copy-pg-sql",
+	"name": "pip-event-pg-to-sql-copy",
 	"properties": {
 		"activities": [
 			{
@@ -38,7 +38,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_postgress_sql_get_table",
+						"referenceName": "ds_postgress_sql_source",
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "public",
@@ -48,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_azure_sql_create_table_sink",
+						"referenceName": "ds_azure_sql_sink",
 						"type": "DatasetReference",
 						"parameters": {
 							"schemaName": "raw",

@@ -1,5 +1,5 @@
 {
-	"name": "ds_azure_sql_create_table_sink",
+	"name": "ds_azure_sql_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_sql_database_create_table",
