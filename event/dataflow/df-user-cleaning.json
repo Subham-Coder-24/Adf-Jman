@@ -9,13 +9,13 @@
 						"referenceName": "ds_sql_raw_user_get",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "User"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_sql_sink",
+						"referenceName": "ok",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -45,8 +45,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 cast(output(",
+				"     format: 'table') ~> User",
+				"User cast(output(",
 				"          createdAt as date,",
 				"          updatedAt as date",
 				"     ),",

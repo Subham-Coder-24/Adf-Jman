@@ -20,8 +20,8 @@
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"sink1": {
-								"tableNameSink": "cleaned",
-								"schemaNameSink": "User"
+								"tableName": "User",
+								"schemaName": "cleaned"
 							}
 						}
 					},
