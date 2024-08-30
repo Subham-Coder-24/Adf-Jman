@@ -1,0 +1,19 @@
+{
+	"name": "ds_product_sink_fact_avg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ukproducts/sink"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "fact",
+			"table": "AvgPricebyCategory"
+		}
+	}
+}

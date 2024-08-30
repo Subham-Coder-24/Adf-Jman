@@ -1,0 +1,60 @@
+{
+	"name": "ds_sql_booking_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "event"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "userId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "eventId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "total",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "paymentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "createdAt",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "updatedAt",
+				"type": "datetime2",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "raw",
+			"table": "Booking"
+		}
+	}
+}

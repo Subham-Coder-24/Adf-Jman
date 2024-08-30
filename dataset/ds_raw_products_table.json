@@ -1,0 +1,68 @@
+{
+	"name": "ds_raw_products_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ukproducts"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "seriesCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "seriesName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categoryCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categoryName_lv_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categoryName_lv_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categoryName_lv_3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "brandName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "minStandardDaysToShip",
+				"type": "nvarchar"
+			},
+			{
+				"name": "maxStandardDaysToShip",
+				"type": "nvarchar"
+			},
+			{
+				"name": "priceCheckLessFlag",
+				"type": "nvarchar"
+			},
+			{
+				"name": "minPricePerPiece",
+				"type": "nvarchar"
+			},
+			{
+				"name": "maxPricePerPiece",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "raw",
+			"table": "ukproducts"
+		}
+	}
+}

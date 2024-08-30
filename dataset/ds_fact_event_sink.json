@@ -1,0 +1,16 @@
+{
+	"name": "ds_fact_event_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "fact",
+			"table": "event"
+		}
+	}
+}
