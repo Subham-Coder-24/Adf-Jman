@@ -25,7 +25,7 @@
 						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
-					"name": "FinalOutput"
+					"name": "UserBuyProduct"
 				}
 			],
 			"transformations": [
@@ -81,7 +81,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> getorder",
-				"getcustomers filter(!equals(toString(Address),'NULL') && !equals(toString(City),'NULL') && !equals(toString(ZipCode),'NULL') && !equals(toString(State),'NULL') ) ~> FilteredCustomer",
+				"getcustomers filter(!equals(toString(Address),'NULL') && !equals(toString(City),'NULL') && !equals(toString(ZipCode),'NULL') && !equals(toString(State),'NULL')) ~> FilteredCustomer",
 				"FilteredCustomer, FilteredOrder join(getcustomers@CustomerID == getorder@CustomerID,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
@@ -121,7 +121,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> FinalOutput"
+				"     errorHandlingOption: 'stopOnFirstError') ~> UserBuyProduct"
 			]
 		}
 	}
