@@ -1,12 +1,12 @@
 {
-	"name": "ds_blob_xlsx_get",
+	"name": "ds_ukproducts_blob_xlsx_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_storage_blob",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "event"
+			"name": "ukproducts"
 		},
 		"annotations": [],
 		"type": "Excel",

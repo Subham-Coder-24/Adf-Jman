@@ -1,5 +1,5 @@
 {
-	"name": "ds_products_copy_data",
+	"name": "ds_ukproducts_sql_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",

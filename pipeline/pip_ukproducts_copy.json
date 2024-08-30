@@ -1,5 +1,5 @@
 {
-	"name": "pip_copy_data",
+	"name": "pip_ukproducts_copy",
 	"properties": {
 		"activities": [
 			{
@@ -42,13 +42,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_blob_xlsx_get",
+						"referenceName": "ds_ukproducts_blob_xlsx_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_products_copy_data",
+						"referenceName": "ds_ukproducts_sql_sink",
 						"type": "DatasetReference"
 					}
 				]
