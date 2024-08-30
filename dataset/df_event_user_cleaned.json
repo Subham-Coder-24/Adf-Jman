@@ -1,0 +1,52 @@
+{
+	"name": "df_event_user_cleaned",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_event_raw_user",
+						"type": "DatasetReference"
+					},
+					"name": "User"
+				}
+			],
+			"sinks": [
+				{
+					"name": "CleanedUser"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveDuplicate"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          email as string,",
+				"          password as string,",
+				"          name as string,",
+				"          createdAt as date,",
+				"          updatedAt as date,",
+				"          role as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> User",
+				"User aggregate(groupBy(id),",
+				"     each(match(name!='id'), $$ = first($$))) ~> RemoveDuplicate",
+				"RemoveDuplicate filter(endsWith(email, '@example.com')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> CleanedUser"
+			]
+		}
+	}
+}

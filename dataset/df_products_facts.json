@@ -1,0 +1,205 @@
+{
+	"name": "df_products_facts",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_cleaned_ukproducts_table",
+						"type": "DatasetReference"
+					},
+					"name": "FACT",
+					"description": "Avg price in every category"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cleaned_ukproducts_table",
+						"type": "DatasetReference"
+					},
+					"name": "Category",
+					"description": "Category Table"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cleaned_ukproducts_table",
+						"type": "DatasetReference"
+					},
+					"name": "ProductsTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_product_sink_fact_avg",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_product_sink_fact_category02",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_product_sink_fact_ukproducts03",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "RemoveDulicates"
+				},
+				{
+					"name": "select3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Series_Code as string,",
+				"          Series_Name as string,",
+				"          Category_Code as string,",
+				"          Category_Name_lv_1 as string,",
+				"          Category_Name_lv_2 as string,",
+				"          Category_Name_lv_3 as string,",
+				"          Brand_Name as string,",
+				"          minDaysToShip as integer,",
+				"          maxDaysToShip as integer,",
+				"          MinPrice as double,",
+				"          MaxPrice as double,",
+				"          AvgPrice as double,",
+				"          AvgDayToShip as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> FACT",
+				"source(output(",
+				"          Series_Code as string,",
+				"          Series_Name as string,",
+				"          Category_Code as string,",
+				"          Category_Name_lv_1 as string,",
+				"          Category_Name_lv_2 as string,",
+				"          Category_Name_lv_3 as string,",
+				"          Brand_Name as string,",
+				"          minDaysToShip as integer,",
+				"          maxDaysToShip as integer,",
+				"          MinPrice as double,",
+				"          MaxPrice as double,",
+				"          AvgPrice as double,",
+				"          AvgDayToShip as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Category",
+				"source(output(",
+				"          Series_Code as string,",
+				"          Series_Name as string,",
+				"          Category_Code as string,",
+				"          Category_Name_lv_1 as string,",
+				"          Category_Name_lv_2 as string,",
+				"          Category_Name_lv_3 as string,",
+				"          Brand_Name as string,",
+				"          minDaysToShip as integer,",
+				"          maxDaysToShip as integer,",
+				"          MinPrice as double,",
+				"          MaxPrice as double,",
+				"          AvgPrice as double,",
+				"          AvgDayToShip as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ProductsTable",
+				"FACT aggregate(groupBy(Category_Name_lv_3),",
+				"     AvgPriceOfCategory = sum(AvgPrice)/count(Category_Name_lv_3)) ~> aggregate1",
+				"cast1 select(mapColumn(",
+				"          Category = Category_Name_lv_3,",
+				"          AvgPriceOfCategory",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(AvgPriceOfCategory != 0) ~> filter1",
+				"filter1 sort(desc(AvgPriceOfCategory, true)) ~> sort1",
+				"aggregate1 cast(output(",
+				"          AvgPriceOfCategory as integer",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"Category select(mapColumn(",
+				"          Category_Code,",
+				"          Category_Name_lv_1,",
+				"          Category_Name_lv_2,",
+				"          Category_Name_lv_3",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 aggregate(groupBy(Category_Code),",
+				"     each(match(name!='Category_Code'), $$ = first($$))) ~> RemoveDulicates",
+				"ProductsTable select(mapColumn(",
+				"          Product_Code = Series_Code,",
+				"          Product_Name = Series_Name,",
+				"          Category_Code,",
+				"          Brand_Name,",
+				"          AvgPrice,",
+				"          AvgDayToShip",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+				"RemoveDulicates sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2",
+				"select3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink3"
+			]
+		}
+	}
+}

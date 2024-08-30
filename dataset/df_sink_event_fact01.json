@@ -1,0 +1,115 @@
+{
+	"name": "df_sink_event_fact01",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_sql_event_table",
+						"type": "DatasetReference"
+					},
+					"name": "Event"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_booking_table",
+						"type": "DatasetReference"
+					},
+					"name": "Booking"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_fact_event_sink",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          description as string,",
+				"          date as timestamp,",
+				"          location as string,",
+				"          price as double,",
+				"          categoryId as integer,",
+				"          createdAt as timestamp,",
+				"          updatedAt as timestamp,",
+				"          endTime as timestamp,",
+				"          img as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Event",
+				"source(output(",
+				"          id as integer,",
+				"          userId as integer,",
+				"          eventId as integer,",
+				"          quantity as integer,",
+				"          total as double,",
+				"          paymentId as integer,",
+				"          createdAt as timestamp,",
+				"          updatedAt as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Booking",
+				"Event, Booking join(Event@id == eventId,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          id = Event@id,",
+				"          Event_name = name,",
+				"          description,",
+				"          location,",
+				"          price,",
+				"          categoryId,",
+				"          quantity,",
+				"          total",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 aggregate(groupBy(id),",
+				"     Event_name = first(Event_name),",
+				"          Total_Ticket_Booked = sum(quantity),",
+				"          Revenue = sum(total)) ~> aggregate1",
+				"aggregate1 derive(Total_Ticket_Booked = coalesce(Total_Ticket_Booked, 0)",
+				",",
+				"          Revenue = coalesce(Revenue, 0)",
+				") ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

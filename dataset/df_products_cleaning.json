@@ -1,0 +1,81 @@
+{
+	"name": "df_products_cleaning",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_raw_products_table",
+						"type": "DatasetReference"
+					},
+					"name": "changetypecolumnname"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_products_cleaned_sql",
+						"type": "DatasetReference"
+					},
+					"name": "cleaned"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveColumn"
+				},
+				{
+					"name": "avgcalculated"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          seriesCode as string,",
+				"          seriesName as string,",
+				"          categoryCode as string,",
+				"          categoryName_lv_1 as string,",
+				"          categoryName_lv_2 as string,",
+				"          categoryName_lv_3 as string,",
+				"          brandName as string,",
+				"          minStandardDaysToShip as integer,",
+				"          maxStandardDaysToShip as integer,",
+				"          priceCheckLessFlag as string,",
+				"          minPricePerPiece as double,",
+				"          maxPricePerPiece as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> changetypecolumnname",
+				"changetypecolumnname select(mapColumn(",
+				"          Series_Code = seriesCode,",
+				"          Series_Name = seriesName,",
+				"          Category_Code = categoryCode,",
+				"          Category_Name_lv_1 = categoryName_lv_1,",
+				"          Category_Name_lv_2 = categoryName_lv_2,",
+				"          Category_Name_lv_3 = categoryName_lv_3,",
+				"          Brand_Name = brandName,",
+				"          minDaysToShip = minStandardDaysToShip,",
+				"          maxDaysToShip = maxStandardDaysToShip,",
+				"          MinPrice = minPricePerPiece,",
+				"          MaxPrice = maxPricePerPiece",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RemoveColumn",
+				"RemoveColumn derive(AvgPrice = round((MaxPrice - MinPrice )/2,2),",
+				"          AvgDayToShip = toInteger(round((maxDaysToShip + minDaysToShip) / 2, 0))) ~> avgcalculated",
+				"avgcalculated sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> cleaned"
+			]
+		}
+	}
+}
