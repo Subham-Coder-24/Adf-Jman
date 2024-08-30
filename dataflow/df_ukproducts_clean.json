@@ -1,8 +1,8 @@
 {
-	"name": "df_products_cleaning",
+	"name": "df_ukproducts_clean",
 	"properties": {
 		"folder": {
-			"name": "event"
+			"name": "ukproducts"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {

@@ -1,8 +1,8 @@
 {
-	"name": "df_sink_event_fact01",
+	"name": "df_event_fact_01",
 	"properties": {
 		"folder": {
-			"name": "ukproducts"
+			"name": "event"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {

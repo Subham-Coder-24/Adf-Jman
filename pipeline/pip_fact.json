@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_products_facts",
+						"referenceName": "df_ukproducts_facts_01",
 						"type": "DataFlowReference"
 					},
 					"compute": {

@@ -1,5 +1,5 @@
 {
-	"name": "df_products_fact_brand",
+	"name": "df_ukproducts_facts_02",
 	"properties": {
 		"folder": {
 			"name": "ukproducts"
@@ -12,7 +12,7 @@
 						"referenceName": "ds_cleaned_ukproducts_table",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Brand"
 				}
 			],
 			"sinks": [
@@ -26,10 +26,10 @@
 			],
 			"transformations": [
 				{
-					"name": "aggregate1"
+					"name": "CountProductEachBrand"
 				},
 				{
-					"name": "sort1"
+					"name": "MaxProductCount"
 				}
 			],
 			"scriptLines": [
@@ -51,11 +51,11 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source1 aggregate(groupBy(Brand_Name),",
-				"     count_products = count(Series_Code)) ~> aggregate1",
-				"aggregate1 sort(desc(count_products, true)) ~> sort1",
-				"sort1 sink(allowSchemaDrift: true,",
+				"     format: 'table') ~> Brand",
+				"Brand aggregate(groupBy(Brand_Name),",
+				"     count_products = count(Series_Code)) ~> CountProductEachBrand",
+				"CountProductEachBrand sort(desc(count_products, true)) ~> MaxProductCount",
+				"MaxProductCount sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",

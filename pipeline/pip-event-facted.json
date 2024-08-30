@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_sink_event_fact01",
+						"referenceName": "df_event_fact_01",
 						"type": "DataFlowReference"
 					},
 					"compute": {

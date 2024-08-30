@@ -1,5 +1,5 @@
 {
-	"name": "df_event_user_cleaned",
+	"name": "df_event_user_clean",
 	"properties": {
 		"folder": {
 			"name": "event"
