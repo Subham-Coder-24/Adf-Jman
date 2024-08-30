@@ -1,6 +1,9 @@
 {
 	"name": "df_products_cleaning",
 	"properties": {
+		"folder": {
+			"name": "event"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

@@ -1,57 +1,39 @@
 {
-	"name": "df_event_user_cleaned",
+	"name": "df_products_fact_brand",
 	"properties": {
 		"folder": {
-			"name": "event"
+			"name": "ukproducts"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_event_raw_user",
+						"referenceName": "ds_cleaned_ukproducts_table",
 						"type": "DatasetReference"
 					},
-					"name": "User"
+					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_cleaned_ukproducts_table",
+						"referenceName": "ds_fact_brand_table",
 						"type": "DatasetReference"
 					},
-					"name": "CleanedUser"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "RemoveDuplicate"
+					"name": "aggregate1"
 				},
 				{
-					"name": "filter1"
+					"name": "sort1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          id as integer,",
-				"          email as string,",
-				"          password as string,",
-				"          name as string,",
-				"          createdAt as date,",
-				"          updatedAt as date,",
-				"          role as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> User",
-				"User aggregate(groupBy(id),",
-				"     each(match(name!='id'), $$ = first($$))) ~> RemoveDuplicate",
-				"RemoveDuplicate filter(!endsWith(email, '@example.com')) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
 				"          Series_Code as string,",
 				"          Series_Name as string,",
 				"          Category_Code as string,",
@@ -66,6 +48,15 @@
 				"          AvgPrice as double,",
 				"          AvgDayToShip as integer",
 				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 aggregate(groupBy(Brand_Name),",
+				"     count_products = count(Series_Code)) ~> aggregate1",
+				"aggregate1 sort(desc(count_products, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
@@ -73,7 +64,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> CleanedUser"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}

@@ -1,6 +1,9 @@
 {
 	"name": "df_sink_event_fact01",
 	"properties": {
+		"folder": {
+			"name": "ukproducts"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
@@ -95,10 +98,8 @@
 				"     Event_name = first(Event_name),",
 				"          Total_Ticket_Booked = sum(quantity),",
 				"          Revenue = sum(total)) ~> aggregate1",
-				"aggregate1 derive(Total_Ticket_Booked = coalesce(Total_Ticket_Booked, 0)",
-				",",
-				"          Revenue = coalesce(Revenue, 0)",
-				") ~> derivedColumn1",
+				"aggregate1 derive(Total_Ticket_Booked = coalesce(Total_Ticket_Booked, 0),",
+				"          Revenue = coalesce(Revenue, 0)) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",

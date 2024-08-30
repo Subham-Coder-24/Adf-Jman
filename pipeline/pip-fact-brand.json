@@ -1,9 +1,9 @@
 {
-	"name": "pip_raw_to_cleaned",
+	"name": "pip-fact-brand",
 	"properties": {
 		"activities": [
 			{
-				"name": "rawtocleaned",
+				"name": "Data flow1",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_products_cleaning",
+						"referenceName": "df_products_fact_brand",
 						"type": "DataFlowReference"
 					},
 					"compute": {

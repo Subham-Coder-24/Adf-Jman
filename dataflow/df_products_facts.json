@@ -1,6 +1,9 @@
 {
 	"name": "df_products_facts",
 	"properties": {
+		"folder": {
+			"name": "ukproducts"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
@@ -26,6 +29,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "ProductsTable"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cleaned_ukproducts_table",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -49,6 +59,9 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink3"
+				},
+				{
+					"name": "sink4"
 				}
 			],
 			"transformations": [
@@ -75,6 +88,12 @@
 				},
 				{
 					"name": "select3"
+				},
+				{
+					"name": "aggregate2"
+				},
+				{
+					"name": "sort2"
 				}
 			],
 			"scriptLines": [
@@ -135,6 +154,25 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ProductsTable",
+				"source(output(",
+				"          Series_Code as string,",
+				"          Series_Name as string,",
+				"          Category_Code as string,",
+				"          Category_Name_lv_1 as string,",
+				"          Category_Name_lv_2 as string,",
+				"          Category_Name_lv_3 as string,",
+				"          Brand_Name as string,",
+				"          minDaysToShip as integer,",
+				"          maxDaysToShip as integer,",
+				"          MinPrice as double,",
+				"          MaxPrice as double,",
+				"          AvgPrice as double,",
+				"          AvgDayToShip as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
 				"FACT aggregate(groupBy(Category_Name_lv_3),",
 				"     AvgPriceOfCategory = sum(AvgPrice)/count(Category_Name_lv_3)) ~> aggregate1",
 				"cast1 select(mapColumn(",
@@ -169,6 +207,9 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
+				"source1 aggregate(groupBy(Brand_Name),",
+				"     count_product = count(Series_Code)) ~> aggregate2",
+				"aggregate2 sort(desc(count_product, true)) ~> sort2",
 				"sort1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -198,7 +239,11 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink3"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink3",
+				"sort2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink4"
 			]
 		}
 	}
