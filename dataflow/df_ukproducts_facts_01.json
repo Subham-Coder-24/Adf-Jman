@@ -9,15 +9,15 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_cleaned_ukproducts_table",
+						"referenceName": "ds_ukproducts_cleaned_table",
 						"type": "DatasetReference"
 					},
-					"name": "FACT",
+					"name": "AvgPricebyCategory",
 					"description": "Avg price in every category"
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_cleaned_ukproducts_table",
+						"referenceName": "ds_ukproducts_cleaned_table",
 						"type": "DatasetReference"
 					},
 					"name": "Category",
@@ -25,7 +25,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_cleaned_ukproducts_table",
+						"referenceName": "ds_ukproducts_cleaned_table",
 						"type": "DatasetReference"
 					},
 					"name": "ProductsTable"
@@ -41,7 +41,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_ulproducts_fact_category_sink",
+						"referenceName": "ds_ukproducts_fact_category_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink2"
@@ -99,7 +99,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> FACT",
+				"     format: 'table') ~> AvgPricebyCategory",
 				"source(output(",
 				"          Series_Code as string,",
 				"          Series_Name as string,",
@@ -138,7 +138,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ProductsTable",
-				"FACT aggregate(groupBy(Category_Name_lv_3),",
+				"AvgPricebyCategory aggregate(groupBy(Category_Name_lv_3),",
 				"     AvgPriceOfCategory = sum(AvgPrice)/count(Category_Name_lv_3)) ~> aggregate1",
 				"cast1 select(mapColumn(",
 				"          Category = Category_Name_lv_3,",

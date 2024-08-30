@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_cleaned_ukproducts_table",
+						"referenceName": "ds_ukproducts_cleaned_table",
 						"type": "DatasetReference"
 					},
 					"name": "Brand"

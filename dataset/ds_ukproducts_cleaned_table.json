@@ -1,5 +1,5 @@
 {
-	"name": "ds_cleaned_ukproducts_table",
+	"name": "ds_ukproducts_cleaned_table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",
