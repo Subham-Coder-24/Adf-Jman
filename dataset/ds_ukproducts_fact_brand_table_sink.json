@@ -1,5 +1,5 @@
 {
-	"name": "ds_fact_brand_table",
+	"name": "ds_ukproducts_fact_brand_table_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",

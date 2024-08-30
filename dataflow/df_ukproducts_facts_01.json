@@ -34,21 +34,21 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_product_sink_fact_avg",
+						"referenceName": "ds_ukproducts_fact_avg_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_product_sink_fact_category02",
+						"referenceName": "ds_ulproducts_fact_category_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink2"
 				},
 				{
 					"dataset": {
-						"referenceName": "ds_product_sink_fact_ukproducts03",
+						"referenceName": "ds_ukproducts_fact_ukproducts_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink3"

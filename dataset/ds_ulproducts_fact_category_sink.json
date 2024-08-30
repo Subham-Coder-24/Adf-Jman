@@ -1,5 +1,5 @@
 {
-	"name": "ds_product_sink_fact_category02",
+	"name": "ds_ulproducts_fact_category_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",
