@@ -1,5 +1,5 @@
 {
-	"name": "ds_event_raw_user",
+	"name": "ds_event_raw_user_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",
