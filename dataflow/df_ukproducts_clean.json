@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_ukproducts_table_raw",
+						"referenceName": "ds_ukproducts_table_raw_source",
 						"type": "DatasetReference"
 					},
 					"name": "changetypecolumnname"
@@ -18,7 +18,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_products_cleaned_sql",
+						"referenceName": "ds_ukproducts_cleaned_sink",
 						"type": "DatasetReference"
 					},
 					"name": "cleaned"

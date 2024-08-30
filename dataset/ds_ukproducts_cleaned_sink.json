@@ -1,12 +1,12 @@
 {
-	"name": "ds_products_cleaned_sql",
+	"name": "ds_ukproducts_cleaned_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "ukproducts"
+			"name": "ukproducts/sink"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
