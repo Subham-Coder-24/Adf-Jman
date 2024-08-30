@@ -1,5 +1,5 @@
 {
-	"name": "ds_raw_products_table",
+	"name": "ds_ukproducts_table_raw",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_azure_sql",

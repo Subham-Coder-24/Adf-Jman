@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_raw_products_table",
+						"referenceName": "ds_ukproducts_table_raw",
 						"type": "DatasetReference"
 					},
 					"name": "changetypecolumnname"

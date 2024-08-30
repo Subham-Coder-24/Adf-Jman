@@ -1,5 +1,5 @@
 {
-	"name": "pip_raw_to_cleaned",
+	"name": "pip_ukproducts_raw_to_cleaned",
 	"properties": {
 		"activities": [
 			{
