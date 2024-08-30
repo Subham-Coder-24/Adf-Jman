@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_cleaned_ukproducts_table",
+						"type": "DatasetReference"
+					},
 					"name": "CleanedUser"
 				}
 			],
@@ -41,11 +45,32 @@
 				"     format: 'table') ~> User",
 				"User aggregate(groupBy(id),",
 				"     each(match(name!='id'), $$ = first($$))) ~> RemoveDuplicate",
-				"RemoveDuplicate filter(endsWith(email, '@example.com')) ~> filter1",
+				"RemoveDuplicate filter(!endsWith(email, '@example.com')) ~> filter1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          Series_Code as string,",
+				"          Series_Name as string,",
+				"          Category_Code as string,",
+				"          Category_Name_lv_1 as string,",
+				"          Category_Name_lv_2 as string,",
+				"          Category_Name_lv_3 as string,",
+				"          Brand_Name as string,",
+				"          minDaysToShip as integer,",
+				"          maxDaysToShip as integer,",
+				"          MinPrice as double,",
+				"          MaxPrice as double,",
+				"          AvgPrice as double,",
+				"          AvgDayToShip as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> CleanedUser"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> CleanedUser"
 			]
 		}
 	}
